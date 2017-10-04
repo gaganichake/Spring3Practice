@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/util 
+        http://www.springframework.org/schema/util/spring-util-3.0.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security-3.0.3.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- Enable component(s) scanning for Spring to auto-detect annotations -->
+	<!-- Note that this element will also register an AutowiredAnnotationBeanPostProcessor instance that can
+auto-wire properties with the @Autowired annotation. -->
+	<context:component-scan base-package="com.gagan.spring3.view.controller,com.gagan.spring3.service" />
+	
+	<!-- To enable AspectJ annotation support in the Spring IoC container -->
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+
+	<!-- Configure handler for service static resources -->
+	<mvc:resources mapping="/js/**" location="/js/" />
+
+	<mvc:resources mapping="/css/**" location="/css/" />
+
+	<mvc:resources mapping="/images/**" location="/images/" />
+
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+		<property name="defaultLocale" value="en" />
+	</bean>
+
+	<!-- Define Interceptors -->
+
+	<bean id="responseTimeInterceptor"
+		class="com.gagan.spring3.view.interceptor.ResponseTimeInterceptor" />
+
+	<bean id="localeChangeInterceptor"
+		class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+		<property name="paramName" value="language" />
+	</bean>
+
+	<!-- HandlerMapping for URL request handler classes, type level annotations -->
+
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<!-- Optional property -->
+		<!-- If you to apply an Interceptor for a particular Controller then use 
+			org.springplugins.web.SelectedAnnotationHandlerMapping -->
+		<property name="interceptors">
+			<list>
+				<ref bean="responseTimeInterceptor" />
+				<ref bean="localeChangeInterceptor" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- HandlerAdapter for request handler methods, method level annotations -->
+
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+	<!-- View resolver -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- The type of the resolved views can be specified by the viewClass property. 
+			By default, InternalResourceViewResolver resolves view names into view objects 
+			of type InternalResourceView (Wrapper for JSP/Servlet) or JstlView if the JSTL library is present in the classpath. So, you 
+			can omit the viewClass property if your views are JSP templates or JSP with JSTL 
+			tags. -->
+		<!--<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" 
+			/> -->
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+		<!-- If multiple view resolver strategies are applied, you have to declare 
+			the priority through “order” property, where the lower order value has a 
+			higher priority. Note: The InternalResourceViewResolver must always assign 
+			with the lowest priority (largest order number), because it will resolve 
+			the view no matter what view name is returned. -->
+		<property name="order" value="2" />
+	</bean>
+
+	<!-- Another strategy for resolving views -->
+	<bean class="org.springframework.web.servlet.view.XmlViewResolver">
+		<!-- By default XmlViewResolver loads view beans from /WEB-INF/view.xml. 
+			"location" property is optional -->
+		<property name="location">
+			<value>/WEB-INF/spring-configuration/view.xml</value>
+		</property>
+		<property name="order" value="1" />
+	</bean>
+	
+	<bean class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+		<property name="basename" value="view"/>
+		<property name="order" value="0" />
+	</bean>
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>
+
+</beans>

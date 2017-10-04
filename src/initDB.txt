@@ -1,0 +1,55 @@
+/*
+SQLyog Community Edition- MySQL GUI v7.11 
+MySQL - 5.0.24-community-nt : Database - eserve
+*********************************************************************
+*/ 
+/*!40101 SET NAMES utf8 */;
+
+/*!40101 SET SQL_MODE=''*/;
+
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`eserve` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `eserve`;
+
+/*Table structure for table `feedback` */
+
+DROP TABLE IF EXISTS `feedback`;
+
+CREATE TABLE `feedback` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `lastModified` datetime NOT NULL,
+  `emailId` varchar(50) NOT NULL,
+  `comment` longtext NOT NULL,
+  `hearAboutUs` varchar(30) NOT NULL,
+  `type` varchar(50) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Table structure for table `user` */
+
+DROP TABLE IF EXISTS `user`;
+
+CREATE TABLE `user` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `lastModified` datetime NOT NULL,
+  `accountConfirmDate` date default NULL,
+  `accountConfirmToken` varchar(50) default NULL,
+  `accountCreatedDate` date NOT NULL,
+  `firstName` varchar(30) NOT NULL default '',
+  `isAccountConfirmed` char(1) NOT NULL,
+  `lastName` varchar(30) NOT NULL default '',
+  `middleName` varchar(30) default '',
+  `password` varchar(15) NOT NULL,
+  `passwordResetToken` varchar(50) default NULL,
+  `phoneNumber` varchar(30) default NULL,
+  `emailId` varchar(100) NOT NULL default '',
+  `isUnsubscribed` char(1) default NULL,
+  `userType` varchar(10) NOT NULL default '',
+  PRIMARY KEY  (`id`,`accountCreatedDate`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

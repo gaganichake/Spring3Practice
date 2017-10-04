@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:jsp="http://java.sun.com/xml/ns/javaee/jsp" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>Spring3Practice</display-name>
+  
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class> <!-- Requires context-param contextConfigLocation -->
+  </listener>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/spring-configuration/applicationContext.xml</param-value> <!-- Default is /WEB-INF/applicationContext.xml -->
+  </context-param>
+  <!-- A web application can define any number of DispatcherServlets. Each servlet will operate in its own namespace, 
+  loading its own application context with mappings, handlers, etc. Only the root application context as loaded 
+  by ContextLoaderListener, if any, will be shared. -->  
+  <servlet>
+    <servlet-name>all</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>/WEB-INF/spring-configuration/all-servlet.xml</param-value> <!-- Default is /WEB-INF/*-servlet.xml. Where * = <servlet-name>  -->
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>all</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <jsp-config>
+    <taglib>
+      <taglib-uri>http://java.sun.com/jsp/jstl/core</taglib-uri>
+      <taglib-location>/WEB-INF/tld/c.tld</taglib-location>
+    </taglib>
+    <taglib>
+      <taglib-uri>http://www.springframework.org/tags</taglib-uri>
+      <taglib-location>/WEB-INF/tld/spring.tld</taglib-location>
+    </taglib>    
+    <taglib>
+      <taglib-uri>http://www.springframework.org/tags/form</taglib-uri>
+      <taglib-location>/WEB-INF/tld/spring-form.tld</taglib-location>
+    </taglib>
+    <taglib>
+      <taglib-uri>local/company/tags</taglib-uri>
+      <taglib-location>/WEB-INF/tld/company.tld</taglib-location>
+    </taglib>
+  </jsp-config>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  </web-app>

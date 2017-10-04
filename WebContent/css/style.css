@@ -1,0 +1,19 @@
+body {
+color:#666666;
+font-size:10px;
+font-family:"Courier New", Courier, monospace;
+}
+table.border, td.border, th.border{
+border: 1px solid black;
+border-collapse:collapse;
+}
+tr.color, th.color
+{
+background-color:#A2BDF0;
+color:white;
+}
+a:link {color:#0000FF;}      /* unvisited link */
+a:visited {color:#0000FF;}  /* visited link */
+a:hover {color:#CC0000;}  /* mouse over link */
+a:active {color:#FF0000;}  /* selected link */
+
